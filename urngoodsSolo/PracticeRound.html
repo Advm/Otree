@@ -1,0 +1,52 @@
+{% extends "global/Page.html" %}
+
+{{ block title }}
+Draw or Guess
+{{ endblock }}
+
+{{ block content }}
+<p id="msg-my-status"></p>
+
+<button class="button" id="guess-btn=" onclick="Guess(this)">Guess</button>
+<button class="button" id="draw-btn" onclick="Draw(this)">Draw</button>
+
+<br><br>
+{{ include Constants.instructions_template }}
+
+<script>
+    let guessBtn = document.getElementById("guess-btn");
+    let drawBtn = document.getElementById("draw-btn");
+    let msgMyStatus = document.getElementById('msg-my-status');
+
+    function Guess(btn){
+        liveSend('true')
+    }
+
+    function Draw(btn) {
+        liveSend('false');
+    }
+
+    function liveRecv(data) {
+        console.log('liveRecv', data);
+        let draws = data.draws
+        let finished = data.guess
+        if(finished || draws >= 40){
+            document.getElementById("form").submit()
+        }
+        msgMyStatus.innerText = `There we have ${data.draws} left to guess.`;
+        // let myDraws = js_vars.myDraws
+        // console.log('what')
+        // // consol.log(myDraws);
+        // // if (myDraws) {
+        // //     msgMyStatus.innerText = `You have ${myDraws} left.`;
+        // // }
+        // drawBtn.innerText = `I have ${nextBid} draws left`;
+        // msgMyStatus.innerText("What")
+
+        document.addEventListener("DOMContentLoaded", function (event) {
+        liveSend({});
+        })
+    };
+</script>
+
+{{ endblock }}
