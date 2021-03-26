@@ -1,0 +1,9 @@
+{% extends "global/Page.html" %}
+
+{% block title %}Practice Draw{% endblock %}
+{% block content %}
+    You have {{ player.drawsLeft}} draws left before you must make a guess on the dominant color.
+    {{formfields}}
+    {{ include Constants.instructions_template }}
+    {% next_button %}
+{% endblock %}

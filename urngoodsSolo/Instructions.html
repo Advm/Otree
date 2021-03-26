@@ -1,0 +1,29 @@
+{% extends "global/Page.html" %}
+
+{% block title %}Player Instructions{% endblock %}
+{% block content %}
+    <p>
+    Your goal in each round of this game is to guess correctly the number of red or blue balls in a simulated urn, and when the number of 
+    balls changes.  
+
+    Specifically, you will draw a ball from the urn, which initially contains 50 red balls and 50 blue balls. Balls are placed back in the 
+    urn after each draw. 
+
+    Just before some randomly selected draw, equally likely to be any of the first ten, the computer will change the composition of the urn 
+    to match one of the following descriptions: 
+    <ul>
+        <li>
+            70 Red Ball and 30 Blue Balls
+        </li>
+        <li>
+            30 Red Balls and 70 Blue Balls
+        </li>
+    </ul>
+    Either change is equally likely, and you will be told neither when the change happens nor the direction of the change. But you do know for sure that some change will occur by the 10th drawing at the latest. Your job is to decide, as soon as you can, whether the urn has 70 red balls or 70 blue balls. 
+    After each ball is drawn from the urn, you have two options: either DRAW or GUESS. You may draw from the urn up to 40 times. If you have not guessed before then, you must make a guess at that point. 
+    </p>
+    {% next_button %}
+{% endblock %}
+
+
+
