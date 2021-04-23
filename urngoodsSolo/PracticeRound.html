@@ -1,52 +1,85 @@
-{% extends "global/Page.html" %}
-
 {{ block title }}
-Draw or Guess
+Guess the Marble Composition
 {{ endblock }}
-
 {{ block content }}
+
 <p id="msg-my-status"></p>
+<p id="msg-my-bid"></p>
 
-<button class="button" id="guess-btn=" onclick="Guess(this)">Guess</button>
-<button class="button" id="draw-btn" onclick="Draw(this)">Draw</button>
+<button type="button" id="guess-btn" onclick="sendBid(this)">Guess</button>
+<button type="button" id="draw-btn" onclick="sendBidD(this)">Draw</button>
 
+<table class="table">
+    <tr>
+        <td>Marbles Drawn:</td>
+        <th id="marbles-drawn">0</th>
+    </tr>
+    <tr>
+        <td>Maximum Payoff for Round</td>
+        <th id="current-payoff">100</th>
+    </tr>
+    <tr>
+        <td>Marble Recently Drawn</td>
+        <th id="marble-chosen">None</th>
+    </tr>
+    <tr>
+        <td>Total Payoff</td>
+        <th id="player-payoff">0</th>
+    </tr>
+</table>
 <br><br>
 {{ include Constants.instructions_template }}
-
 <script>
-    let guessBtn = document.getElementById("guess-btn");
-    let drawBtn = document.getElementById("draw-btn");
-    let msgMyStatus = document.getElementById('msg-my-status');
+    let guessBtn = document.getElementById('guess-btn');
+    let drawBtn = document.getElementById('draw-btn');
+    let msgTurnsLeft = document.getElementById('marbles-drawn');
+    let marble = document.getElementById('marble-chosen');
+    let payOff = document.getElementById('current-payoff')
+    let totalpayOff = document.getElementById('player-payoff')
 
-    function Guess(btn){
-        liveSend('true')
+    let msgMyStatus = document.getElementById('msg-my-status');
+    let msgMyBid = document.getElementById('msg-my-bid');
+
+
+
+    function sendBid(btn) {
+        liveSend({'bid': parseInt(btn.value), 'button': 'guess'});
     }
 
-    function Draw(btn) {
-        liveSend('false');
+    function sendBidD(btn) {
+        liveSend({'bid': parseInt(btn.value), 'button': 'draw'});
     }
 
     function liveRecv(data) {
-        console.log('liveRecv', data);
-        let draws = data.draws
-        let finished = data.guess
-        if(finished || draws >= 40){
-            document.getElementById("form").submit()
-        }
-        msgMyStatus.innerText = `There we have ${data.draws} left to guess.`;
-        // let myDraws = js_vars.myDraws
-        // console.log('what')
-        // // consol.log(myDraws);
-        // // if (myDraws) {
-        // //     msgMyStatus.innerText = `You have ${myDraws} left.`;
-        // // }
-        // drawBtn.innerText = `I have ${nextBid} draws left`;
-        // msgMyStatus.innerText("What")
+        console.log('liveRecv', data)
+        console.log(data)
 
-        document.addEventListener("DOMContentLoaded", function (event) {
+        if (data.currentDraws === 0) {
+            msgTurnsLeft.innerText = `You have made 0 draws from the urn`;
+            payOff.innerText = `Guess the composition correctly to get a payoff of 100`
+
+        } else if (data.currentDraws >= 40) {
+            drawBtn.disabled = 'disabled';
+            msgTurnsLeft.innerText = `${data.currentDraws}`;
+            marble.innerText = "";
+            payOff.innerText = `${data.payOff}`;
+        }else if (data.currentDraws > 0) {
+            msgTurnsLeft.innerText = `${data.currentDraws}`;
+            marble.innerText = `${data.marble}`;
+            payOff.innerText = `${data.payOff}`;
+
+        }else if(data.guess){
+            document.getElementById("form").submit();
+            drawBtn.disabled = 'disabled'
+        }
+        
+        totalpayOff.innerText = `${data.totalpayOff}`
+    }
+
+    document.addEventListener("DOMContentLoaded", function (event) {
         liveSend({});
-        })
-    };
+    });
 </script>
+
 
 {{ endblock }}

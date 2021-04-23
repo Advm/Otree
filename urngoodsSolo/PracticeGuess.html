@@ -1,11 +1,48 @@
-{% extends "global/Page.html" %}
-
-{% block title %}Practice Guess{% endblock %}
-{% block content %}
-    You got here because you clicked on Guess.
-    {{ include Constants.instructions_template }}
-    {% next_button %}
-{% endblock %}
-
 {{ block title }}
+Which color dominates the Urn?
 {{ endblock }}
+{{ block content }}
+<button type="button" id="blue-btn" onclick="sendBid(this)">Blue</button>
+<button type="button" id="red-btn" onclick="sendBidD(this)">Red</button>
+<p id="msg-my-status"></p>
+
+{{ include Constants.instructions_template }}
+<script>
+    let redBtn = document.getElementById('red-btn');
+    let blueBtn = document.getElementById('blue-btn');
+    let msgTurnsLeft = document.getElementById('marbles-drawn');
+    let marble = document.getElementById('marble-chosen');
+    let payOff = document.getElementById('current-payoff')
+
+    let msgMyStatus = document.getElementById('msg-my-status');
+    let msgMyBid = document.getElementById('msg-my-bid');
+
+    function sendBid(btn) {
+        liveSend({'button': 1});
+    }
+
+    function sendBidD(btn) {
+        liveSend({'button': 0});
+    }
+
+    function liveRecv(data) {
+        console.log('liveRecv', data)
+        console.log(data)
+        if (data.guessedCorrectly) {
+            msgMyStatus.innerText = `Congrats! You Guesed the Corect Composition!`
+            document.getElementById("form").submit();
+        }
+        else {
+            msgMyStatus.innerText = "Sorry, You incorrectly guessed the composition"
+            document.getElementById("form").submit();
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", function (event) {
+        liveSend({});
+    });
+</script>
+
+
+{{ endblock }}
+

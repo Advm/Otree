@@ -9,20 +9,20 @@ SESSION_CONFIGS = [
     ),
     dict(name='doubleAuction', app_sequence=['doubleAuction'], num_demo_participants=4),
     dict(name='dollar_auction', app_sequence=['auction'], num_demo_participants=3),
-    dict(
-        name='public_goods',
-        app_sequence=['public_goods', 'payment_info'],
-        num_demo_participants=3,
-    ),
-    dict(
-        name='guess_two_thirds',
-        display_name="Guess 2/3 of the Average",
-        app_sequence=['guess_two_thirds', 'payment_info'],
-        num_demo_participants=3,
-    ),
-    dict(
-        name='survey', app_sequence=['survey', 'payment_info'], num_demo_participants=1
-    ),
+    # dict(
+    #     name='public_goods',
+    #     app_sequence=['public_goods', 'payment_info'],
+    #     num_demo_participants=3,
+    # ),
+    # dict(
+    #     name='guess_two_thirds',
+    #     display_name="Guess 2/3 of the Average",
+    #     app_sequence=['guess_two_thirds', 'payment_info'],
+    #     num_demo_participants=3,
+    # ),
+    # dict(
+    #     name='survey', app_sequence=['survey', 'payment_info'], num_demo_participants=1
+    # ),
     dict(
         name='UrnGoods',
         num_demo_participants=5,
@@ -70,4 +70,4 @@ Here are some oTree games.
 SECRET_KEY = '1708417278112'
 
 INSTALLED_APPS = ['otree']
-PARTICIPANT_FIELDS = ['URN', 'UrnChanges', 'reaction_times']
+PARTICIPANT_FIELDS = ['URN', 'urnDraws', 'contentsChanged', 'reaction_times']
